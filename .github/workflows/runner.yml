@@ -1,0 +1,35 @@
+name: Download file
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'Input File Link'
+        required: true
+        type: string
+
+jobs:
+  build:
+    name: Download file
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - name: Download file
+      run: |
+        mkdir download
+        cd download
+        wget "${{ github.event.inputs.url }}"
+
+    - name: Create release
+      continue-on-error: true
+      uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        tag: download
+        commit: main
+        replacesArtifacts: true
+        token: ${{ secrets.GITHUB_TOKEN }}
+        artifacts: download/*
