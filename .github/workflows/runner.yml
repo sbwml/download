@@ -27,6 +27,7 @@ jobs:
       continue-on-error: true
       uses: ncipollo/release-action@v1
       with:
+        name: download
         allowUpdates: true
         tag: download
         commit: main
